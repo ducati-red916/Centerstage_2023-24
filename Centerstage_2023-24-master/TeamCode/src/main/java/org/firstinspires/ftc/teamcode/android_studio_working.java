@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -36,10 +37,10 @@ public class android_studio_working extends LinearOpMode {
             while (opModeIsActive()) {
                 drivemodes(); //sets drivemodes to their correct values
                 drive.run(gamepad1.right_stick_x, gamepad1.right_stick_y, gamepad1.left_stick_x, drive_mode);
-               front_right_port_2.setPower(drive.FrontRight());
-               back_right_port_1.setPower(drive.BackRight());
-               front_left_port_0.setPower(drive.FrontLeft());
-               back_left_port_3.setPower(drive.BackLeft());
+                ((DcMotorEx)front_right_port_2).setVelocity(drive.FrontRight()*2700);
+                ((DcMotorEx) back_right_port_1).setVelocity(drive.BackRight()*2700);
+                ((DcMotorEx)front_left_port_0).setVelocity(drive.FrontLeft()*2700);
+                ((DcMotorEx) back_left_port_3).setVelocity(drive.BackLeft()*2700);
                if( gamepad1.right_bumper )
                    plane.setPosition(1);
                else
