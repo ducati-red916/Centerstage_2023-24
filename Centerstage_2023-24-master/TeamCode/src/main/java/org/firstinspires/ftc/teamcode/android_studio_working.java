@@ -41,10 +41,12 @@ public class android_studio_working extends LinearOpMode {
                 ((DcMotorEx) back_right_port_1).setVelocity(drive.BackRight()*2700);
                 ((DcMotorEx)front_left_port_0).setVelocity(drive.FrontLeft()*2700);
                 ((DcMotorEx) back_left_port_3).setVelocity(drive.BackLeft()*2700);
-               if( gamepad1.right_bumper )
-                   plane.setPosition(1);
+               if(gamepad1.right_bumper)
+                    plane.setPosition(0);
                else
-                   plane.setPosition(0);
+                    plane.setPosition(0.65);
+
+
             }
         }
     }
