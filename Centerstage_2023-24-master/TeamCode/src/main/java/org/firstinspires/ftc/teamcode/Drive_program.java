@@ -1,26 +1,19 @@
 package org.firstinspires.ftc.teamcode;
-
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.Servo;
 
-
-@TeleOp(name = "android studio working")
-public class android_studio_working extends LinearOpMode {
+@TeleOp(name = "Drive_program")
+public class Drive_program extends LinearOpMode {
 
     private DcMotor back_left_port_3;
     private DcMotor back_right_port_1;
     private DcMotor front_right_port_2;
     private DcMotor front_left_port_0;
-    private Servo plane;
-    double drive_mode;
-
+    double drive_mode = 0.5;
     holonomic drive;
-    final double startdrivemode = 0.5;
-
 
     @Override
     public void runOpMode() {
@@ -28,11 +21,9 @@ public class android_studio_working extends LinearOpMode {
         back_right_port_1 = hardwareMap.get(DcMotor.class, "back_right_port_1");
         front_right_port_2 = hardwareMap.get(DcMotor.class, "front_right_port_2");
         front_left_port_0 = hardwareMap.get(DcMotor.class, "front_left_port_0");
-        plane = hardwareMap.get(Servo.class, "plane");
         drive = new holonomic();
         motormodes();
         waitForStart();
-        drive_mode=startdrivemode;
         if (opModeIsActive()) {
             while (opModeIsActive()) {
                 drivemodes();
@@ -41,10 +32,6 @@ public class android_studio_working extends LinearOpMode {
                 ((DcMotorEx) back_right_port_1).setVelocity(drive.BackRight()*2700);
                 ((DcMotorEx)front_left_port_0).setVelocity(drive.FrontLeft()*2700);
                 ((DcMotorEx) back_left_port_3).setVelocity(drive.BackLeft()*2700);
-               if(gamepad1.right_bumper)
-                    plane.setPosition(0);
-               else
-                    plane.setPosition(0.65);
             }
         }
     }
@@ -73,5 +60,4 @@ public class android_studio_working extends LinearOpMode {
             drive_mode = 0.25;
         }
     }
-
 }
