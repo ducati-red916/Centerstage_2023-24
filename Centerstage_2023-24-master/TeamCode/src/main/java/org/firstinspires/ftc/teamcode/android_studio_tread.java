@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 
-@TeleOp(name = "android studio working")
+@TeleOp(name = "android studio tread")
 public class android_studio_tread extends LinearOpMode {
 
     private DcMotor back_left_port_3;
