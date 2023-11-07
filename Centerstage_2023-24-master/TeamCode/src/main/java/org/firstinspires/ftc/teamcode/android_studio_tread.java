@@ -9,12 +9,13 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 
 @TeleOp(name = "android studio working")
-public class android_studio_working extends LinearOpMode {
+public class android_studio_tread extends LinearOpMode {
 
     private DcMotor back_left_port_3;
     private DcMotor back_right_port_1;
     private DcMotor front_right_port_2;
     private DcMotor front_left_port_0;
+    private DcMotor tread;
     double drive_mode;
 
     holonomic drive;
@@ -28,6 +29,7 @@ public class android_studio_working extends LinearOpMode {
         back_right_port_1 = hardwareMap.get(DcMotor.class, "back_right_port_1");
         front_right_port_2 = hardwareMap.get(DcMotor.class, "front_right_port_2");
         front_left_port_0 = hardwareMap.get(DcMotor.class, "front_left_port_0");
+        tread = hardwareMap.get(DcMotor.class, "tread");
         plane = hardwareMap.get(Servo.class, "plane");
         drive = new holonomic();
         motormodes();
@@ -41,11 +43,16 @@ public class android_studio_working extends LinearOpMode {
                 ((DcMotorEx) back_right_port_1).setVelocity(drive.BackRight()*2700);
                 ((DcMotorEx)front_left_port_0).setVelocity(drive.FrontLeft()*2700);
                 ((DcMotorEx) back_left_port_3).setVelocity(drive.BackLeft()*2700);
-
+                
                if(gamepad1.right_bumper)
                     plane.setPosition(0);
                else
                     plane.setPosition(0.65);
+
+               if (gamepad1.right_trigger!=0)
+                   tread.setPower(gamepad1.right_trigger);
+               else
+                   tread.setPower(-gamepad1.left_trigger);
             }
         }
     }
