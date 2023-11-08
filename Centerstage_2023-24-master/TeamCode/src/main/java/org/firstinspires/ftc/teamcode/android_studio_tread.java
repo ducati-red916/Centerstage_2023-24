@@ -1,12 +1,10 @@
 package org.firstinspires.ftc.teamcode;
-
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
-
 
 @TeleOp(name = "android studio tread")
 public class android_studio_tread extends LinearOpMode {
@@ -18,10 +16,7 @@ public class android_studio_tread extends LinearOpMode {
     private DcMotor tread;
     double drive_mode;
     double tread_mode=0.5;
-
     holonomic drive;
-
-
 
     @Override
     public void runOpMode() {
