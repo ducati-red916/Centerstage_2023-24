@@ -13,7 +13,6 @@ public class android_studio_tread extends LinearOpMode {
     private DcMotor back_right_port_1;
     private DcMotor front_right_port_2;
     private DcMotor front_left_port_0;
-    private DcMotor tread;
     double drive_mode=0.5;
     double tread_mode=0.5;
     holonomic drive;
@@ -21,6 +20,7 @@ public class android_studio_tread extends LinearOpMode {
     @Override
     public void runOpMode() {
         Servo plane;
+        DcMotor tread;
         back_left_port_3 = hardwareMap.get(DcMotor.class, "back_left_port_3");
         back_right_port_1 = hardwareMap.get(DcMotor.class, "back_right_port_1");
         front_right_port_2 = hardwareMap.get(DcMotor.class, "front_right_port_2");
