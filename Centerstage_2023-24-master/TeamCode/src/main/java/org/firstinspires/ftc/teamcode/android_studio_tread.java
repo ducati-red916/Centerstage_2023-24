@@ -17,9 +17,10 @@ public class android_studio_tread extends LinearOpMode {
     private DcMotor front_left_port_0;
     private DcMotor tread;
     double drive_mode;
+    double tread_mode=0.5;
 
     holonomic drive;
-    final double startdrivemode = 0.5;
+
 
 
     @Override
@@ -34,7 +35,7 @@ public class android_studio_tread extends LinearOpMode {
         drive = new holonomic();
         motormodes();
         waitForStart();
-        drive_mode = startdrivemode;
+        drive_mode = 0.5;
         if (opModeIsActive()) {
             while (opModeIsActive()) {
                 drivemodes();
@@ -49,10 +50,11 @@ public class android_studio_tread extends LinearOpMode {
                else
                     plane.setPosition(0.65);
 
+               treadmodes();
                if (gamepad1.right_trigger!=0)
-                   tread.setPower(gamepad1.right_trigger);
+                   tread.setPower(gamepad1.right_trigger*tread_mode);
                else
-                   tread.setPower(-gamepad1.left_trigger);
+                   tread.setPower(-gamepad1.left_trigger*tread_mode);
             }
         }
     }
@@ -71,14 +73,20 @@ public class android_studio_tread extends LinearOpMode {
     }
 
     private void drivemodes() {
-        if (gamepad1.a) {
-            drive_mode = 0.8;
-        }
-        if (gamepad1.x){
+        if (gamepad1.a)
+            drive_mode=0.8;
+        if (gamepad1.x)
             drive_mode=0.5;
-        }
-        if (gamepad1.b) {
-            drive_mode = 0.25;
-        }
+        if (gamepad1.b)
+            drive_mode=0.25;
+    }
+
+    private void treadmodes() {
+        if (gamepad1.a)
+            tread_mode=0.8;
+        if (gamepad1.x)
+            tread_mode=0.5;
+        if (gamepad1.b)
+            tread_mode=0.25;
     }
 }
