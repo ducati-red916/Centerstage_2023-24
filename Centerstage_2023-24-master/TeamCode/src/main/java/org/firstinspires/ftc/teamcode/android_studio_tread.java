@@ -14,7 +14,7 @@ public class android_studio_tread extends LinearOpMode {
     private DcMotor front_right_port_2;
     private DcMotor front_left_port_0;
     private DcMotor tread;
-    double drive_mode;
+    double drive_mode=0.5;
     double tread_mode=0.5;
     holonomic drive;
 
@@ -30,7 +30,6 @@ public class android_studio_tread extends LinearOpMode {
         drive = new holonomic();
         motormodes();
         waitForStart();
-        drive_mode = 0.5;
         if (opModeIsActive()) {
             while (opModeIsActive()) {
                 drivemodes();

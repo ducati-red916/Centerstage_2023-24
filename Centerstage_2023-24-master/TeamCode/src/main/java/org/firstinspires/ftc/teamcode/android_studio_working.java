@@ -1,12 +1,10 @@
 package org.firstinspires.ftc.teamcode;
-
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
-
 
 @TeleOp(name = "android studio working")
 public class android_studio_working extends LinearOpMode {
@@ -15,11 +13,8 @@ public class android_studio_working extends LinearOpMode {
     private DcMotor back_right_port_1;
     private DcMotor front_right_port_2;
     private DcMotor front_left_port_0;
-    double drive_mode;
-
+    double drive_mode=0.5;
     holonomic drive;
-    final double startdrivemode = 0.5;
-
 
     @Override
     public void runOpMode() {
@@ -32,7 +27,6 @@ public class android_studio_working extends LinearOpMode {
         drive = new holonomic();
         motormodes();
         waitForStart();
-        drive_mode = startdrivemode;
         if (opModeIsActive()) {
             while (opModeIsActive()) {
                 drivemodes();
@@ -64,14 +58,11 @@ public class android_studio_working extends LinearOpMode {
     }
 
     private void drivemodes() {
-        if (gamepad1.a) {
-            drive_mode = 0.8;
-        }
-        if (gamepad1.x){
+        if (gamepad1.a)
+            drive_mode=0.8;
+        if (gamepad1.x)
             drive_mode=0.5;
-        }
-        if (gamepad1.b) {
-            drive_mode = 0.25;
-        }
+        if (gamepad1.b)
+            drive_mode=0.25;
     }
 }
