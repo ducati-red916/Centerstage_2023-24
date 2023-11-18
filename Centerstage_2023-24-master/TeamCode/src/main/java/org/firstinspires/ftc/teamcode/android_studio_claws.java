@@ -50,10 +50,10 @@ public class android_studio_claws extends LinearOpMode {
                     plane.setPosition(0.65);
 
                if (gamepad1.dpad_left) {
-                   pickup1.setPosition(0);
+                   pickup1.setPosition(0.5);
                    pickup2.setPosition(0);
                } else if (gamepad1.dpad_down){
-                   pickup1.setPosition(1);
+                   pickup1.setPosition(0);
                    pickup2.setPosition(1);
                }
 
@@ -61,7 +61,7 @@ public class android_studio_claws extends LinearOpMode {
                     dropoff1.setPosition(1);
                     dropoff2.setPosition(1);
                 } else if (gamepad1.dpad_up) {
-                    dropoff1.setPosition(0);
+                    dropoff1.setPosition(0.5);
                     dropoff2.setPosition(0);
                 }
             }
