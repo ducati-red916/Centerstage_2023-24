@@ -16,6 +16,7 @@ public class android_studio_tread extends LinearOpMode {
     double drive_mode=0.5;
     double tread_mode=0.5;
     holonomic drive;
+    double oldpos;
 
     @Override
     public void runOpMode() {
@@ -49,6 +50,8 @@ public class android_studio_tread extends LinearOpMode {
                    tread.setPower(gamepad1.right_trigger*tread_mode);
                else
                    tread.setPower(-gamepad1.left_trigger*tread_mode);
+               telemetry.addData("speed", tread.getCurrentPosition()/oldpos);
+               oldpos = tread.getCurrentPosition();
             }
         }
     }

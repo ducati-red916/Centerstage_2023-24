@@ -13,7 +13,7 @@ public class android_studio_claws extends LinearOpMode {
     private DcMotor back_right_port_1;
     private DcMotor front_right_port_2;
     private DcMotor front_left_port_0;
-    double drive_mode=0.5;
+    double drive_mode = 0.5;
     holonomic drive;
 
     @Override
