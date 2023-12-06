@@ -13,6 +13,7 @@ public class android_studio_claws extends LinearOpMode {
     private DcMotor back_right_port_1;
     private DcMotor front_right_port_2;
     private DcMotor front_left_port_0;
+    private DcMotor slide;
     double drive_mode = 0.5;
     holonomic drive;
 
@@ -27,6 +28,7 @@ public class android_studio_claws extends LinearOpMode {
         back_right_port_1 = hardwareMap.get(DcMotor.class, "back_right_port_1");
         front_right_port_2 = hardwareMap.get(DcMotor.class, "front_right_port_2");
         front_left_port_0 = hardwareMap.get(DcMotor.class, "front_left_port_0");
+        slide = hardwareMap.get(DcMotor.class, "slide");
         plane = hardwareMap.get(Servo.class, "plane");
         pickup1 = hardwareMap.get(Servo.class, "pickup1");
         pickup2 = hardwareMap.get(Servo.class, "pickup2");
@@ -48,22 +50,35 @@ public class android_studio_claws extends LinearOpMode {
                     plane.setPosition(0);
                else
                     plane.setPosition(0.65);
+               slide.setPower(gamepad1.right_trigger);
+               if (gamepad1.left_trigger != 0)
+                   slide.setPower(-gamepad1.left_trigger);
 
-               if (gamepad1.dpad_left) {
-                   pickup1.setPosition(0.5);
-                   pickup2.setPosition(0);
-               } else if (gamepad1.dpad_down){
+
+
+                //1=claw, 2=rotater
+                if (gamepad1.dpad_left)
+                   pickup1.setPosition(0.14);
+               else
                    pickup1.setPosition(0);
-                   pickup2.setPosition(1);
-               }
+/* commented out because positions arent right yet
+               if (gamepad1.dpad_down)
+                   pickup2.setPosition(0.1);
+               else
+                   pickup2.setPosition(0);
+*/
 
-                if (gamepad1.dpad_right) {
-                    dropoff1.setPosition(1);
-                    dropoff2.setPosition(1);
-                } else if (gamepad1.dpad_up) {
-                    dropoff1.setPosition(0.5);
+                if (gamepad1.dpad_right)
+                    dropoff1.setPosition(0.08);
+                else
+                    dropoff1.setPosition(0);
+/* commented out because positions arent right yet
+                if (gamepad1.dpad_up)
+                    dropoff2.setPosition(0.1);
+                else
                     dropoff2.setPosition(0);
-                }
+*/
+
             }
         }
     }
