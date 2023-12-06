@@ -63,7 +63,7 @@ public class android_studio_claws extends LinearOpMode {
                    pickup1.setPosition(0);
 
                if (gamepad1.dpad_down) {
-                   pickup2.setPosition(0.3);
+                   pickup2.setPosition(0.25);
                    pickup1.setPosition(0.14);
                } else
                    pickup2.setPosition(0.93);
