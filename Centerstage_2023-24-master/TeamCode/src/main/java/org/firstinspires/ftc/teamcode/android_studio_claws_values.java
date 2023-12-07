@@ -5,10 +5,9 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
-import java.util.concurrent.TimeUnit;
 
-@TeleOp(name = "android studio claws")
-public class android_studio_claws extends LinearOpMode {
+@TeleOp(name = "android studio claws values")
+public class android_studio_claws_values extends LinearOpMode {
 
     private DcMotor back_left_port_3;
     private DcMotor back_right_port_1;
@@ -16,15 +15,15 @@ public class android_studio_claws extends LinearOpMode {
     private DcMotor front_left_port_0;
     private DcMotor slide;
     double drive_mode = 0.5;
-    final double pickup1_close = 0.14;
-    final double pickup1_open = 0;
-    final double pickup2_up = 0.25;
-    final double pickup2_down = 0.93;
-    final double dropoff1_close = 0.06;
-    final double dropoff1_open = 0;
-    final double dropoff2_drop = 0.7;
-    final double dropoff2_tranfer = 0.89;
+    double pickup1_close =0.14;
+    double pickup2_up =0.25;
+    double pickup2_down =0.93;
+    double dropoff1_close = 0.06;
+    double dropoff2_up = 0.7;
+    double dropoff2_down = 0.89;
     holonomic drive;
+
+    int loopcounter;
 
     @Override
     public void runOpMode() {
@@ -66,29 +65,37 @@ public class android_studio_claws extends LinearOpMode {
 
 
                 //1=claw, 2=rotater
-               if (gamepad1.left_bumper || gamepad1.dpad_up) {
-                   TimeUnit.MILLISECONDS.toSeconds(500);
-                   pickup1.setPosition(pickup1_open);
-               } else {
-                   TimeUnit.MILLISECONDS.toSeconds(500);
+                if (gamepad2.dpad_left || gamepad2.dpad_down)
                    pickup1.setPosition(pickup1_close);
-               }
-
-               if (gamepad1.dpad_up)
-                   pickup2.setPosition(pickup2_down);
                else
+                   pickup1.setPosition(0);
+
+               if (gamepad2.dpad_down) {
                    pickup2.setPosition(pickup2_up);
+               } else
+                   pickup2.setPosition(pickup2_down);
 
 
-               if (gamepad1.right_bumper)
-                    dropoff1.setPosition(dropoff1_open);
-               else
+               if (gamepad2.dpad_right)
                     dropoff1.setPosition(dropoff1_close);
-
-               if (gamepad1.dpad_down)
-                    dropoff2.setPosition(dropoff2_tranfer);
                else
-                    dropoff2.setPosition(dropoff2_drop);
+                    dropoff1.setPosition(0);
+
+                if (gamepad2.dpad_up) {
+                    dropoff2.setPosition(dropoff2_up);
+                }else
+                    dropoff2.setPosition(dropoff2_down);
+                if (loopcounter++%100==0){
+                    dropoff2_up+=gamepad2.left_stick_y*0.1;
+                    dropoff2_down+= gamepad2.left_stick_x*0.1;
+                    pickup2_up+=gamepad2.right_stick_y*0.1;
+                    pickup2_down+= gamepad2.right_stick_x*0.1;
+                }
+                telemetry.addData("dropoff2_up", dropoff2_up);
+                telemetry.addData("dropoff2_down", dropoff2_down);
+                telemetry.addData("pickup2_up", pickup2_up);
+                telemetry.addData("pickup2_down", pickup2_down);
+                telemetry.update();
             }
         }
     }
