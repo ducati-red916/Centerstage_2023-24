@@ -5,6 +5,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.TouchSensor;
+
 import java.util.concurrent.TimeUnit;
 
 @TeleOp(name = "android studio claws")
@@ -24,6 +26,8 @@ public class android_studio_claws extends LinearOpMode {
     final double dropoff1_open = 0;
     final double dropoff2_drop = 0.7;
     final double dropoff2_tranfer = 0.89;
+    private TouchSensor limit_switch;
+    int pos0;
     holonomic drive;
 
     @Override
@@ -37,6 +41,7 @@ public class android_studio_claws extends LinearOpMode {
         back_right_port_1 = hardwareMap.get(DcMotor.class, "back_right_port_1");
         front_right_port_2 = hardwareMap.get(DcMotor.class, "front_right_port_2");
         front_left_port_0 = hardwareMap.get(DcMotor.class, "front_left_port_0");
+        limit_switch = hardwareMap.get(TouchSensor.class, "limit_switch");
         slide = hardwareMap.get(DcMotor.class, "slide");
         plane = hardwareMap.get(Servo.class, "plane");
         pickup1 = hardwareMap.get(Servo.class, "pickup1");
@@ -48,6 +53,8 @@ public class android_studio_claws extends LinearOpMode {
         waitForStart();
         if (opModeIsActive()) {
             while (opModeIsActive()) {
+                if (limit_switch.isPressed())
+                    pos0 = slide.getCurrentPosition();
                 drivemodes();
                 drive.run(gamepad1.right_stick_x, gamepad1.right_stick_y, gamepad1.left_stick_x, drive_mode);
                 ((DcMotorEx)front_right_port_2).setVelocity(drive.FrontRight()*2700);
@@ -59,9 +66,20 @@ public class android_studio_claws extends LinearOpMode {
                     plane.setPosition(0);
                else
                     plane.setPosition(0.65);
-               slide.setPower(gamepad1.right_trigger);
-               if (gamepad1.left_trigger != 0)
-                   slide.setPower(-gamepad1.left_trigger);
+               if (gamepad1.left_trigger != 0) {
+                   slide.setTargetPosition(slide.getTargetPosition() - Math.round(gamepad1.left_trigger * 50));
+                   slide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                   ((DcMotorEx) slide).setVelocity(0.5);
+               } else {
+                   slide.setTargetPosition(slide.getTargetPosition() + Math.round(gamepad1.left_trigger * 50));
+                   slide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                   ((DcMotorEx) slide).setVelocity(0.5);
+               }
+               if (gamepad1.a) {
+                   slide.setTargetPosition(pos0+500);
+                   slide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                   ((DcMotorEx) slide).setVelocity(0.5);
+               }
 
 
 
