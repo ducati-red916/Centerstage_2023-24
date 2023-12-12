@@ -27,9 +27,13 @@ public class android_studio_claws extends LinearOpMode {
     final double dropoff2_drop = 0.7;
     final double dropoff2_tranfer = 0.89;
     final double dropoff2_clear = 1;
+    boolean bottom_claw_toggle = false;
     private TouchSensor limit_switch;
-    private int loopcounter = 0;
-    private boolean dpad_up_last;
+    private boolean flag;
+    boolean dpad_down_last = true;
+    boolean dpad_up_last = true;
+    boolean top_claw_toggle = true;
+    boolean dpad_right_last = true;
     int pos0;
     holonomic drive;
 
@@ -64,17 +68,25 @@ public class android_studio_claws extends LinearOpMode {
                 ((DcMotorEx) back_right_port_1).setVelocity(drive.BackRight()*2700);
                 ((DcMotorEx)front_left_port_0).setVelocity(drive.FrontLeft()*2700);
                 ((DcMotorEx) back_left_port_3).setVelocity(drive.BackLeft()*2700);
+                if (gamepad2.dpad_up && gamepad2.dpad_up != dpad_up_last){
+                    bottom_claw_toggle = !bottom_claw_toggle;
+                }
+                dpad_up_last = gamepad2.dpad_down;
+                if (gamepad2.dpad_down && gamepad2.dpad_down != dpad_down_last){
+                    top_claw_toggle = !top_claw_toggle;
+                }
+                dpad_down_last = gamepad2.dpad_down;
 
-               if (gamepad1.right_bumper)
+               if (gamepad2.right_bumper)
                     plane.setPosition(0);
                else
                     plane.setPosition(0.65);
-               if (gamepad1.left_trigger != 0) {
-                   slide.setTargetPosition(slide.getTargetPosition() - Math.round(gamepad1.left_trigger * 50));
+               if (gamepad2.left_trigger != 0) {
+                   slide.setTargetPosition(slide.getTargetPosition() - Math.round(gamepad2.left_trigger * 50));
                    slide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                    ((DcMotorEx) slide).setVelocity(0.5);
                } else {
-                   slide.setTargetPosition(slide.getTargetPosition() + Math.round(gamepad1.left_trigger * 50));
+                   slide.setTargetPosition(slide.getTargetPosition() + Math.round(gamepad2.right_trigger * 50));
                    slide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                    ((DcMotorEx) slide).setVelocity(0.5);
                }
@@ -89,34 +101,36 @@ public class android_studio_claws extends LinearOpMode {
                     ((DcMotorEx) slide).setVelocity(0.5);
                 }
 
-               if (gamepad1.dpad_up) {
-                    pickup2.setPosition(pickup2_down);
-                   dpad_up_last=true;
-                }
+
                 //1=claw, 2=rotater
-               if (gamepad1.left_bumper || gamepad1.dpad_up) {
+               if (gamepad2.left_bumper || top_claw_toggle) {
                    sleep(1000);
                    pickup1.setPosition(pickup1_open);
                } else {
                    pickup1.setPosition(pickup1_close);
                }
-                if (!(gamepad1.left_bumper || gamepad1.dpad_up))
+                if (!(gamepad2.left_bumper || top_claw_toggle))
                     pickup1.setPosition(pickup1_close);
-               if (!gamepad1.dpad_up) {
-                   if (dpad_up_last != gamepad1.dpad_up)
+               if (bottom_claw_toggle) {
+                   if (flag) {
                        sleep(500);
+                       flag = false;
+                   }
                    pickup2.setPosition(pickup2_up);
+               } else {
+                   pickup2.setPosition(pickup2_down);
+                   flag = true;
                }
-                if (!(gamepad1.left_bumper || gamepad1.dpad_up))
+                if (!(gamepad2.left_bumper || top_claw_toggle))
                     pickup1.setPosition(pickup1_close);
-               if (gamepad1.right_bumper)
+               if (gamepad2.right_bumper)
                     dropoff1.setPosition(dropoff1_open);
                else
                     dropoff1.setPosition(dropoff1_close);
 
-               if (gamepad1.dpad_down)
+               if (!top_claw_toggle && !gamepad1.dpad_right)
                     dropoff2.setPosition(dropoff2_tranfer);
-               else if (gamepad1.dpad_right)
+               else if (gamepad2.dpad_right)
                    dropoff2.setPosition(dropoff2_clear);
                else
                     dropoff2.setPosition(dropoff2_drop);
@@ -125,6 +139,10 @@ public class android_studio_claws extends LinearOpMode {
     }
 
     private void motormodes() {
+        slide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        // The next block resets the slide encoder to zero.  Make sure the slide is fully down before initializing the program.
+        slide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        slide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         back_left_port_3.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         back_right_port_1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         front_left_port_0.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
