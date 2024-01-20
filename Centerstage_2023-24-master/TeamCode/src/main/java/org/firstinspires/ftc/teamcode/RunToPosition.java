@@ -16,16 +16,15 @@ public class RunToPosition {
     //   Orientation angles = new Orientation();
 
     //variables
-    public double BackLeft;
-    public double BackRight;
-    public double FrontLeft;
-    public double FrontRight;
+    public double Xpower;
+    public double Ypower;
+
     //   private boolean atpo;
-    double DeltaX;
-    double DeltaY;
+    public double DeltaX;
+    public double DeltaY;
     //    private double DeltaTheta;
-    double PosX;
-    double PosY;
+    public double PosX;
+    public double PosY;
     //   private double PosTheta; // in radians
 //    final private double LeftRightDist=7.625*2.54; //Distance between the left and right wheels Inches converted to CM
 
@@ -54,34 +53,22 @@ public class RunToPosition {
         if (Math.abs(DeltaX) > margin) {
             //           atpo=false;
             if (Math.abs(DeltaX) < Math.abs(NearRadius)) {
-                BackLeft = -speed * -Math.sin(DeltaX * Math.PI * 1/2 * 1/NearRadius); // start slowing when inside 24 inches
-                BackRight = -speed * -Math.sin(DeltaX * Math.PI * 1/2 * 1/NearRadius); // start slowing when inside 24 inches
-                FrontLeft = speed * -Math.sin(DeltaX * Math.PI * 1/2 * 1/NearRadius); // start slowing when inside 24 inches
-                FrontRight = speed * -Math.sin(DeltaX * Math.PI * 1/2 * 1/NearRadius); // start slowing when inside 24 inches
+
+                Xpower = speed * Math.sin(DeltaX * Math.PI * 1/2 * 1/NearRadius); // start slowing when inside 24 inches
             } else {
-                BackLeft = -speed * -(Math.abs(DeltaX) / DeltaX);
-                BackRight = -speed * -(Math.abs(DeltaX) / DeltaX);
-                FrontLeft = speed * -(Math.abs(DeltaX) / DeltaX);
-                FrontRight = speed * -(Math.abs(DeltaX) / DeltaX);
+                Xpower = speed * (Math.abs(DeltaX) / DeltaX);
             }
         } else {
             if (Math.abs(DeltaY) > margin) {
                 if (DeltaY < Math.abs(NearRadius)) {
-                    BackLeft = -speed * -Math.sin(DeltaY * Math.PI * 1/2 * 1/NearRadius); // start slowing when inside 24 inches
-                    BackRight = speed * -Math.sin(DeltaY * Math.PI * 1/2 * 1/NearRadius); // start slowing when inside 24 inches
-                    FrontLeft = -speed * -Math.sin(DeltaY * Math.PI * 1/2 * 1/NearRadius); // start slowing when inside 24 inches
-                    FrontRight = speed * -Math.sin(DeltaY * Math.PI * 1/2 * 1/NearRadius); // start slowing when inside 24 inches
+                    Ypower = -speed * Math.sin(DeltaY * Math.PI * 1/2 * 1/NearRadius); // start slowing when inside 24 inches
                 } else {
-                    BackLeft = -speed * -(Math.abs(DeltaY) / DeltaY);
-                    BackRight = speed * -(Math.abs(DeltaY) / DeltaY);
-                    FrontLeft = -speed * -(Math.abs(DeltaY) / DeltaY);
-                    FrontRight = speed * -(Math.abs(DeltaY) / DeltaY);
+                    Ypower = -speed * (Math.abs(DeltaY) / DeltaY);
                 }
             } else {
-                BackLeft = 0;
-                BackRight = 0;
-                FrontLeft = 0;
-                FrontRight = 0;
+                Xpower = 0;
+                Ypower = 0;
+
 //                atpo=true;
             }
 
