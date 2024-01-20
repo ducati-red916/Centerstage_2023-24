@@ -50,20 +50,20 @@ public class RunToPosition {
 */
         // below is desmos function
 // f\left(x\right)=\left\{\operatorname{abs}\left(x\right)<6:0.25\cdot-\sin\left(x\cdot\pi\cdot\frac{1}{2}\cdot\frac{1}{6}\right),\operatorname{abs}\left(x\right)>6:0.25\cdot-\left(\frac{\operatorname{abs}\left(x\right)}{x}\right)\right\}
-        if (Math.abs(DeltaX) > margin) {
+        if (Math.abs(DeltaY) > margin) {
             //           atpo=false;
-            if (Math.abs(DeltaX) < Math.abs(NearRadius)) {
+            if (Math.abs(DeltaY) < Math.abs(NearRadius)) {
 
-                Xpower = speed * Math.sin(DeltaX * Math.PI * 1/2 * 1/NearRadius); // start slowing when inside 24 inches
+                Ypower = speed * Math.sin(DeltaY * Math.PI * 1/2 * 1/NearRadius); // start slowing when inside 24 inches
             } else {
-                Xpower = speed * (Math.abs(DeltaX) / DeltaX);
+                Ypower = speed * (Math.abs(DeltaY) / DeltaY);
             }
         } else {
-            if (Math.abs(DeltaY) > margin) {
-                if (DeltaY < Math.abs(NearRadius)) {
-                    Ypower = -speed * Math.sin(DeltaY * Math.PI * 1/2 * 1/NearRadius); // start slowing when inside 24 inches
+            if (Math.abs(DeltaX) > margin) {
+                if (DeltaX < Math.abs(NearRadius)) {
+                    Xpower = -speed * Math.sin(DeltaX * Math.PI * 1/2 * 1/NearRadius); // start slowing when inside 24 inches
                 } else {
-                    Ypower = -speed * (Math.abs(DeltaY) / DeltaY);
+                    Xpower = -speed * (Math.abs(DeltaX) / DeltaX);
                 }
             } else {
                 Xpower = 0;
