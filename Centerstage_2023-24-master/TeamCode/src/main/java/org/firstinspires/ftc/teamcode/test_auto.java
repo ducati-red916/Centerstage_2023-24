@@ -109,7 +109,7 @@ public class test_auto extends LinearOpMode {
                     gotopos.atpos = false;
                 }
 // testing my branches
-
+// rebranching is cool
                 while(!gotopos.atpos && opModeIsActive()) {
                     if (position == 0)
                         gotopos.Run(dead_right_port_1.getCurrentPosition(), dead_back_port_2.getCurrentPosition(), -9, -28.5, 1, 1);
