@@ -19,7 +19,7 @@ public class RunToPosition {
     public double Xpower;
     public double Ypower;
 
-    //   private boolean atpo;
+    public boolean atpos;
     public double DeltaX;
     public double DeltaY;
     //    private double DeltaTheta;
@@ -39,7 +39,7 @@ public class RunToPosition {
         DeltaX = TPosX - PosX;
         DeltaY = TPosY - PosY;
 
-        //       atpo=false;
+               atpos=false;
 /*
         while(Math.abs(PosTheta) != 0+5){
             BackLeft = -0.1;
@@ -69,7 +69,7 @@ public class RunToPosition {
                 Xpower = 0;
                 Ypower = 0;
 
-//                atpo=true;
+                atpos=true;
             }
 
         }

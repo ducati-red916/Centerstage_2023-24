@@ -35,6 +35,7 @@ public class test_auto extends LinearOpMode {
     boolean USE_WEBCAM;
     double drive_mode=0.5;
     RunToPosition gotopos;
+    RunToPosition gotopos2;
     holonomic drive;
     int loopcounter = 0;
     boolean flag = false;
@@ -54,6 +55,7 @@ public class test_auto extends LinearOpMode {
         dead_right_port_1 = hardwareMap.get(DcMotor.class, "dead_right_port_1");
         dead_back_port_2 = hardwareMap.get(DcMotor.class, "dead_back_port_2");
         gotopos = new RunToPosition();
+        gotopos2 = new RunToPosition();
         drive = new holonomic();
         motormodes();
         telemetry.addData("DS preview on/off", "3 dots, Camera Stream");
@@ -73,8 +75,16 @@ public class test_auto extends LinearOpMode {
 
 
                 // Iterate through list and call a function to display info for each recognized object.
-                if (x==-1){
-                    while (loopcounter<150000) {
+                if (x==-1) {
+                    while(!gotopos.atpos && opModeIsActive()) {
+                        gotopos.Run(dead_right_port_1.getCurrentPosition(), dead_back_port_2.getCurrentPosition(), 0, -8, 1, 1);
+                        drive.run(gotopos.Xpower, gotopos.Ypower, 0, 0.2);
+                        ((DcMotorEx) front_right_port_2).setVelocity(drive.FrontRight() * 2700);
+                        ((DcMotorEx) front_left_port_0).setVelocity(drive.FrontLeft() * 2700);
+                        ((DcMotorEx) back_right_port_1).setVelocity(drive.BackRight() * 2700);
+                        ((DcMotorEx) back_left_port_3).setVelocity(drive.BackLeft() * 2700);
+                    }
+                    while (loopcounter < 150000 && opModeIsActive()) {
                         myTfodRecognitions = myTfodProcessor.getRecognitions();
                         for (Recognition myTfodRecognition_item2 : myTfodRecognitions) {
                             myTfodRecognition = myTfodRecognition_item2;
@@ -87,64 +97,46 @@ public class test_auto extends LinearOpMode {
                         telemetry.update();
                     }
 
-                    if (x==-1) {
-                        flag =true;
-                        gotopos.Run(dead_right_port_1.getCurrentPosition(), dead_back_port_2.getCurrentPosition(), 0, -4, 1, 1);
-                        drive.run(gotopos.Xpower, gotopos.Ypower, 0, 0.2);
-                        ((DcMotorEx)front_right_port_2).setVelocity(drive.FrontRight()*2700);
-                        ((DcMotorEx)front_left_port_0).setVelocity(drive.FrontLeft()*2700);
-                        ((DcMotorEx) back_right_port_1).setVelocity(drive.BackRight()*2700);
-                        ((DcMotorEx)back_left_port_3).setVelocity(drive.BackLeft()*2700);
-                        loopcounter = 0;
-                        while (loopcounter < 150000) {
-                            myTfodRecognitions = myTfodProcessor.getRecognitions();
-                            for (Recognition myTfodRecognition_item2 : myTfodRecognitions) {
-                                myTfodRecognition = myTfodRecognition_item2;
-                                x = (myTfodRecognition.getLeft() + myTfodRecognition.getRight()) / 2;
-                                y = (myTfodRecognition.getTop() + myTfodRecognition.getBottom()) / 2;
-                            }
-                            telemetry.addData("X", x);
-                            telemetry.addData("Y", y);
-                            telemetry.addData("loopcounter", loopcounter++);
-                            telemetry.update();
-                        }
+
+                    if (x <= 300 && !(x < 1))
+                        position = 1;
+                    else if (x > 300)
+                        position = 0;
+                    else if (x == -1) {
+                        position = 2;
+                        x = 0;
                     }
-                        if (x <= 300 && !(x < 1))
-                            position = 0;
-                        else if (x > 300)
-                            position = 1;
-                        else if (x == -1) {
-                            position = 2;
-                            x = 0;
-                        }
-
+                    gotopos.atpos = false;
                 }
-//testing branches more
+// testing my branches
 
-                if (flag=true) {
+                while(!gotopos.atpos && opModeIsActive()) {
                     if (position == 0)
-                        gotopos.Run(dead_right_port_1.getCurrentPosition(), dead_back_port_2.getCurrentPosition(), 6, -20, 1, 1);
+                        gotopos.Run(dead_right_port_1.getCurrentPosition(), dead_back_port_2.getCurrentPosition(), -9, -28.5, 1, 1);
                     else if (position == 1)
-                        gotopos.Run(dead_right_port_1.getCurrentPosition(), dead_back_port_2.getCurrentPosition(), 0, -24, 1, 2);
+                        gotopos.Run(dead_right_port_1.getCurrentPosition(), dead_back_port_2.getCurrentPosition(), 0, -30, 1, 2);
                     else if (position == 2)
-                        gotopos.Run(dead_right_port_1.getCurrentPosition(), dead_back_port_2.getCurrentPosition(), -8, -23, 1, 2);
+                        gotopos.Run(dead_right_port_1.getCurrentPosition(), dead_back_port_2.getCurrentPosition(), 16.5, -26, 1, 2);
                     //else if (position == 2)
                     //gotopos.Run(dead_right_port_1.getCurrentPosition(), dead_back_port_2.getCurrentPosition(), -12, -12, 1, 1);
-                }else {
-                    if (position == 0)
-                        gotopos.Run(dead_right_port_1.getCurrentPosition(), dead_back_port_2.getCurrentPosition(), 6, -24, 1, 1);
-                    else if (position == 1)
-                        gotopos.Run(dead_right_port_1.getCurrentPosition(), dead_back_port_2.getCurrentPosition(), 0, -28, 1, 2);
-                    else if (position == 2)
-                        gotopos.Run(dead_right_port_1.getCurrentPosition(), dead_back_port_2.getCurrentPosition(), -8, -27, 1, 2);
+
+
+                    drive.run(gotopos.Xpower, gotopos.Ypower, 0, 0.2);
+                    ((DcMotorEx) front_right_port_2).setVelocity(drive.FrontRight() * 2700);
+                    ((DcMotorEx) front_left_port_0).setVelocity(drive.FrontLeft() * 2700);
+                    ((DcMotorEx) back_right_port_1).setVelocity(drive.BackRight() * 2700);
+                    ((DcMotorEx) back_left_port_3).setVelocity(drive.BackLeft() * 2700);
                 }
-
-
-                drive.run(gotopos.Xpower, gotopos.Ypower, 0, 0.2);
-                ((DcMotorEx)front_right_port_2).setVelocity(drive.FrontRight()*2700);
-                ((DcMotorEx)front_left_port_0).setVelocity(drive.FrontLeft()*2700);
-                ((DcMotorEx) back_right_port_1).setVelocity(drive.BackRight()*2700);
-                ((DcMotorEx)back_left_port_3).setVelocity(drive.BackLeft()*2700);
+                if (gotopos.atpos) {
+                    gotopos2.Run(dead_right_port_1.getCurrentPosition(), dead_back_port_2.getCurrentPosition(), 0, 4, 1, 2);
+                    if (!gotopos2.atpos) {
+                        drive.run(gotopos2.Xpower, gotopos2.Ypower, 0, 0.2);
+                        ((DcMotorEx) front_right_port_2).setVelocity(drive.FrontRight() * 2700);
+                        ((DcMotorEx) front_left_port_0).setVelocity(drive.FrontLeft() * 2700);
+                        ((DcMotorEx) back_right_port_1).setVelocity(drive.BackRight() * 2700);
+                        ((DcMotorEx) back_left_port_3).setVelocity(drive.BackLeft() * 2700);
+                    }
+                }
                 telemetry.addData("posx", gotopos.PosX);
                 telemetry.addData("posy", gotopos.PosY);
                 telemetry.addData("deltax", gotopos.DeltaX);
