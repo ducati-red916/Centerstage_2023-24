@@ -119,6 +119,7 @@ public class test_auto extends LinearOpMode {
                         }
 
                 }
+//testing branches more
 
                 if (flag=true) {
                     if (position == 0)
