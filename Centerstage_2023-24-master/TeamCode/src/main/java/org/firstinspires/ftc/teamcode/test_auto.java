@@ -126,7 +126,7 @@ public class test_auto extends LinearOpMode {
                     ((DcMotorEx) front_left_port_0).setVelocity(drive.FrontLeft() * 2700);
                     ((DcMotorEx) back_right_port_1).setVelocity(drive.BackRight() * 2700);
                     ((DcMotorEx) back_left_port_3).setVelocity(drive.BackLeft() * 2700);
-                }
+                }//branch test
                 if (gotopos.atpos) {
                     gotopos2.Run(dead_right_port_1.getCurrentPosition(), dead_back_port_2.getCurrentPosition(), 0, 4, 1, 2);
                     if (!gotopos2.atpos) {
